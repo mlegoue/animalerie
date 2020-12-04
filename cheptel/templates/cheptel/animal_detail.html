@@ -1,0 +1,60 @@
+{% extends 'cheptel/base.html' %}
+
+{% block content %}
+    {% if modal %}
+        {% if modal == "Coucher_ok" %}
+            <div class="alert alert-success" role="alert">
+                {{ animal.id_animal }} est dans le nid !
+            </div>
+        {% elif modal == "Coucher_no" %}
+            <div class="alert alert-danger" role="alert">
+                {{ animal.id_animal }} ne peut pas aller dormir ! Il y a déjà quelqu'un dans le nid.
+            </div>
+        {% elif modal == "Reveiller_ok" %}
+            <div class="alert alert-success" role="alert">
+                {{ animal.id_animal }} est reveillé !
+            </div>
+        {% elif modal == "Divertir_ok" %}
+            <div class="alert alert-success" role="alert">
+                {{ animal.id_animal }} est dans la roue !
+            </div>
+        {% elif modal == "Divertir_no" %}
+            <div class="alert alert-danger" role="alert">
+                {{ animal.id_animal }} ne peut pas aller jouer ! Il y a déjà quelqu'un dans la roue.
+            </div>
+        {% elif modal == "Nourrir_ok" %}
+            <div class="alert alert-success" role="alert">
+                {{ animal.id_animal }} a mangé !
+            </div>
+        {% elif modal == "Nourrir_no" %}
+            <div class="alert alert-danger" role="alert">
+                {{ animal.id_animal }} ne peut pas aller manger ! Il y a déjà quelqu'un à la mangeoire.
+            </div>
+        {% endif %}
+    {% endif %}
+
+    <div class="card" style="width: 50%; margin: auto" >
+        <div class="image" style="background-image:url('{{ animal.photo }}'); height:350px"></div>
+               <div class="card-body">
+                   <h5 class="card-title">{{ animal.id_animal }} <span class="badge badge-secondary">{{ animal.etat }}</span>
+                       {% if user.is_authenticated %}
+                            <a href="{% url 'animal_edit' pk=animal.pk %}"><i class="fas fa-edit"></i></a>
+                        {% endif %}
+                   </h5>
+
+                    <p><b>Type : </b>{{ animal.type }}</p>
+                    <p><b>Race : </b>{{ animal.race }}</p>
+                    <p><b>Lieu : </b>{{ animal.lieu.id_equip }}</p>
+                   {% if animal.etat == "affamé" %}
+                        <a href="{% url 'nourrir' pk=animal.pk %}" class="btn btn-primary btn-perso">Nourrir <i class="fas fa-carrot"></i></a>
+                   {% elif animal.etat == "repus" %}
+                        <a href="{% url 'divertir' pk=animal.pk %}" class="btn btn-primary btn-perso">Divertir <i class="fas fa-puzzle-piece"></i></a>
+                   {% elif animal.etat == "fatigué" %}
+                        <a href="{% url 'coucher' pk=animal.pk %}" class="btn btn-primary btn-perso">Coucher <i class="fas fa-bed"></i></a>
+                   {% else %}
+                        <a href="{% url 'reveiller' pk=animal.pk %}" class="btn btn-primary btn-perso">Réveiller <i class="fas fa-stopwatch"></i></a>
+                   {% endif %}
+               </div>
+    </div>
+
+{% endblock %}

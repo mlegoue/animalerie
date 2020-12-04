@@ -1,0 +1,23 @@
+{% extends 'cheptel/base.html' %}
+
+{% block content %}
+    <div class="card" style="width: 50%; margin: auto" >
+        <div class="image" style="background-image:url('{{ equip.photo }}'); height:350px"></div>
+               <div class="card-body">
+                    <h5 class="card-title">{{ equip.id_equip }}
+                    {% if equip.disponibilite == "Occupé" %}
+                            <span class="badge btn-danger "><i class="fas fa-times-circle"></i> {{ equip.disponibilite }}</span>
+                        {% else %}
+                            <span class="badge btn-success"><i class="fas fa-check-circle"></i> {{ equip.disponibilite }}</span>
+                        {% endif %}
+                    </h5>
+               </div>
+                {% if animaux %}
+                       <ul class="list-group list-group-flush">
+                           {% for animal in animaux %}
+                            <li class="list-group-item"><a href="{% url 'animal_detail' pk=animal.pk %}">{{ animal.id_animal }}</a></li>
+                            {% endfor %}
+                       </ul>
+                {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'cheptel/base.html' %}
+
+{% block content %}
+
+<div class="row">
+
+<div class="col-md-6">
+
+    <h3 style="text-align: center">Les animaux</h3>
+
+    <div class="row">
+
+        {% for animal in animaux %}
+
+        <div class="col-md-6">
+            <div class="card" style="width: 18em;">
+                <div class="image" style="background-image:url('{{ animal.photo }}')"></div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ animal.id_animal }} <span class="badge badge-secondary">{{ animal.etat }}</span></h5>
+                    <a href="{% url 'animal_detail' pk=animal.pk %}" class="btn btn-primary btn-perso">Plus de détails</a>
+                </div>
+            </div>
+        </div>
+
+
+        {% endfor %}
+
+    </div>
+</div>
+
+
+<div class="col-md-6">
+    <h3 style="text-align: center"> Les équipements </h3>
+
+    <div class="row">
+
+        {% for equip in equipements %}
+
+        <div class="col-md-6">
+            <div class="card" style="width: 18em;">
+                <div class="image" style="background-image:url('{{ equip.photo }}')"></div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {{equip.id_equip}}
+                        {% if equip.disponibilite == "Occupé" %}
+                            <span class="badge btn-danger "><i class="fas fa-times-circle"></i> {{ equip.disponibilite }}</span>
+                        {% else %}
+                            <span class="badge btn-success"><i class="fas fa-check-circle"></i> {{ equip.disponibilite }}</span>
+                        {% endif %}
+                    </h5>
+
+                    <a href="{% url 'equip_detail' pk=equip.pk %}" class="btn btn-primary btn-perso">Plus de détails</a>
+
+
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+
+    </div>
+</div>
+</div>
+
+{% endblock %}
